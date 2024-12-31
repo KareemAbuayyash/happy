@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Auto Envelope In/Out</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #e5cce2; /* soft pink background */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .envelope-container {
+      position: relative;
+      width: 300px;
+      height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Shadow under the envelope (optional) */
+    .shadow {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 15px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 50%;
+      filter: blur(3px);
+      z-index: 1;
+    }
+
+    /* The white "card" that slides in/out */
+    .card {
+      position: absolute;
+      width: 220px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      padding: 1rem;
+      z-index: 2;
+      /* We'll animate the card's vertical position using transform */
+      transform: translateY(40px); /* start lowered inside envelope */
+      animation: cardSlide 6s ease-in-out infinite; /* REPEATING ANIMATION */
+    }
+
+    .card h1 {
+      font-size: 1.2rem;
+      color: #ff4da6;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      line-height: 1.4;
+      color: #444;
+    }
+
+    /* Gift & hearts (optional) */
+    .icon {
+      font-size: 1.6rem;
+      margin: 0.4rem;
+    }
+    .hearts {
+      color: red;
+      margin: 0 2px;
+    }
+
+    /* Envelope base - pink rectangle */
+    .envelope-base {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 240px;
+      height: 140px;
+      background: #ff4da6;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+      z-index: 2;
+    }
+
+    /* Envelope flap - pink triangle */
+    .envelope-flap {
+      position: absolute;
+      bottom: 140px; /* just above envelope-base */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 120px solid transparent;
+      border-right: 120px solid transparent;
+      border-bottom: 90px solid #ff4da6;
+      border-radius: 0 0 6px 6px; /* slightly round the flap tip */
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+      z-index: 3;
+      /* We'll also animate the flap's rotation for an "open/close" effect */
+      animation: flapOpen 6s ease-in-out infinite;
+      transform-origin: center bottom;
+    }
+
+    /* 
+      KEYFRAMES:
+      - cardSlide: moves the card up (out of envelope) and back down (in).
+      - flapOpen: rotates the flap up and down in sync with the card.
+    */
+    @keyframes cardSlide {
+      0%   { transform: translateY(40px); }  /* fully inside envelope */
+      25%  { transform: translateY(-40px); } /* fully out */
+      50%  { transform: translateY(40px); }  /* back in */
+      100% { transform: translateY(40px); }  /* end same as start -> repeats */
+    }
+
+    @keyframes flapOpen {
+      0%   { transform: translateX(-50%) rotateX(0deg); }   /* closed flap */
+      25%  { transform: translateX(-50%) rotateX(180deg); } /* open flap */
+      50%  { transform: translateX(-50%) rotateX(0deg); }   /* closed again */
+      100% { transform: translateX(-50%) rotateX(0deg); }   /* repeat */
+    }
+  </style>
+</head>
+<body>
+  <div class="envelope-container">
+    <!-- Shadow under envelope -->
+    <div class="shadow"></div>
+
+    <!-- The greeting card (moves up/down automatically) -->
+    <div class="card">
+      <h1>Happy New Year 2025!</h1>
+      <p>
+        <span class="icon">🎁</span>
+        <span class="hearts">❤❤❤</span>
+      </p>
+      <p>
+        كل عام وأنت بخير 
+        <br />سنة جديدة سعيدة مليئة بالخير والنجاح! 🎉
+        <br />
+        <span class="hearts">❤</span>
+      </p>
+    </div>
+
+    <!-- Envelope base + flap -->
+    <div class="envelope-base"></div>
+    <div class="envelope-flap"></div>
+  </div>
+</body>
+</html>
